@@ -17,6 +17,8 @@ namespace Laba3
         {
             InitializeComponent();
         }
+        byte[] arrAfterXOR;
+        bool flag = false;
 
         void myShowToolTip(TextBox tB, byte[] arr)
         {
@@ -45,19 +47,28 @@ namespace Laba3
         {
             string text = tb_text.Text;
             byte[] arr_text;
-            if (cipher == "") arr_text = UnicodeEncoding.UTF8.GetBytes(text);
-            else arr_text = Encoding.UTF8.GetBytes(cipher);
+            if (flag == false)
+            {
+                arr_text = Encoding.UTF32.GetBytes(text);
+                flag = true;
+            }
+            else
+            {
+                arr_text = arrAfterXOR;
+                flag = false;
+            }
 
             myShowToolTip(tb_text, arr_text); // Створити підказку
 
             string key = tb_Key.Text;
-            byte[] arr_key = UnicodeEncoding.UTF8.GetBytes(key);
-            BitArray array_key = new BitArray(UnicodeEncoding.UTF8.GetBytes(key));
+            byte[] arr_key = UnicodeEncoding.UTF32.GetBytes(key);
+            BitArray array_key = new BitArray(UnicodeEncoding.UTF32.GetBytes(key));
             myShowToolTip(tb_Key, arr_key); // Створити підказку
 
             byte[] arr_cipher = myXOR(arr_text, arr_key);
+            arrAfterXOR = arr_cipher;
 
-            cipher = UnicodeEncoding.UTF8.GetString(arr_cipher);
+            cipher = UnicodeEncoding.UTF32.GetString(arr_cipher);
             tb_cipher.Text = cipher;
             BitArray cipherr = new BitArray(UnicodeEncoding.UTF8.GetBytes(cipher));
             myShowToolTip(tb_cipher, arr_cipher); // Створити підказку
